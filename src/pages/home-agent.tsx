@@ -1,10 +1,60 @@
+import {useList} from '@refinedev/core'
 import React from 'react'
+import {PineCharts, PropertyReferral, TotalRevenue} from '../components'
+import {Box, Stack,Typography} from '@mui/material'
 
 const HomeAgent = () => {
-  return (
-    <div>Hello world
-    </div>
-  )
+    return (
+        <Box>
+          <Typography fontSize={25} fontWeight={700} color="#11142D">
+            Dashboard
+          </Typography>
+            <Box mt="20px" display="flex" flexWrap="wrap"
+                gap={4}>
+                <PineCharts title="Properties for sale"
+                    value={30}
+                    series={
+                        [75, 25]
+                    }
+                    colors={
+                        ["#3517ca", "#1ebbde"]
+                    }/>
+                <PineCharts title="Properties for rent"
+                    value={400}
+                    series={
+                        [60, 40]
+                    }
+                    colors={
+                        ["#3517ca", "#1ebbde"]
+                    }/>
+                <PineCharts title="Total Customers"
+                    value={720}
+                    series={
+                        [10, 90]
+                    }
+                    colors={
+                        ["#3517ca", "#1ebbde"]
+                    }/>
+                <PineCharts title="Properties for Cities"
+                    value={500}
+                    series={
+                        [50, 50]
+                    }
+                    colors={
+                        ["#3517ca", "#1ebbde"]
+                    }/>
+            </Box>
+            <Stack 
+              mt={"25px"}
+              width="100%"
+              direction={{xs: "column", lg: "row"}}
+              gap={4}
+              >
+              <TotalRevenue />
+              <PropertyReferral />
+            </Stack>
+        </Box>
+    )
 }
 
 export default HomeAgent
