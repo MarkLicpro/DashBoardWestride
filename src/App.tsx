@@ -14,6 +14,7 @@ import {
   useNotificationProvider,
 } from "@refinedev/mui";
 
+import dataRestProvider from "@refinedev/simple-rest";
 
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -61,6 +62,8 @@ import {
     PropertiesDetail,
     Reviews,
     Message,
+    
+    
 } from "./pages";
 import { Profile } from "./components";
 
@@ -82,15 +85,31 @@ function App() {
       const profileObj = credential ? parseJwt(credential) : null;
 
       if (profileObj) {
-        localStorage.setItem(
+        const response = await fetch("http://localhost:8080/api/v1/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: profileObj.name,
+            email: profileObj.email,
+            avatar: profileObj.picture,
+        }),
+      });
+
+      const data = await response.json();
+        if (response.status === 200) {
+          localStorage.setItem(
           "user",
           JSON.stringify({
             ...profileObj,
             avatar: profileObj.picture,
+            userid: data._id 
           })
         );
 
         localStorage.setItem("token", `${credential}`);
+        }
+        
+        
 
         return {
           success: true,
@@ -163,7 +182,7 @@ function App() {
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
-                dataProvider={dataProvider}
+                dataProvider={dataRestProvider("http://localhost:8080/api/v1")}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerProvider}
                 authProvider={authProvider}
@@ -186,8 +205,8 @@ function App() {
                     
                     name: "Properties",
                     list: "/Properties",
-                    // create: "/blog-posts/create",
-                    // edit: "/blog-posts/edit/:id",
+                    create: "/Properties/create",
+                    show: "/Properties/show/:id",
                     // show: "/blog-posts/show/:id",
                     meta: {
                       canDelete: true,
@@ -277,6 +296,8 @@ function App() {
                     </Route>
                      <Route path="/Properties">
                       <Route index element={<AllProperties />} />
+                      <Route path="create" element={<CreateProperties />} />
+                      <Route path="show/:id" element={<PropertiesDetail />} />
                     </Route>
                      <Route path="/Agents">
                       <Route index element={<AgentProfile />} />
