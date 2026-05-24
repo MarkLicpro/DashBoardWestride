@@ -207,6 +207,7 @@ function App() {
                     list: "/Properties",
                     create: "/Properties/create",
                     show: "/Properties/show/:id",
+                    edit: "/Properties/edit/:id",
                     // show: "/blog-posts/show/:id",
                     meta: {
                       canDelete: true,
@@ -298,6 +299,7 @@ function App() {
                       <Route index element={<AllProperties />} />
                       <Route path="create" element={<CreateProperties />} />
                       <Route path="show/:id" element={<PropertiesDetail />} />
+                      <Route path="edit/:id" element={<CreateProperties />} />
                     </Route>
                      <Route path="/Agents">
                       <Route index element={<AgentProfile />} />
